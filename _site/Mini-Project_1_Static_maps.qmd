@@ -1,0 +1,108 @@
+---
+title: 'Mini-Project 1 Static Maps'
+author: Tenzin Gyaltsen
+format:
+  pdf: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, Static Maps}
+# Load necessary libraries
+library(tidyverse)
+library(maps)
+library(ggplot2)
+library(stringr)
+library(readr)
+
+# ----------- Violent Crime Rate Map (1999) -----------
+
+# Data source title: 	More Guns, Less Crime? 
+# (https://vincentarelbundock.github.io/Rdatasets/datasets.html) 
+
+# About this Dataset: (https://vincentarelbundock.github.io/Rdatasets/doc/AER/Guns.html)
+
+# Load and filter Guns dataset for 1999
+Guns_1999 <- read_csv("Guns.csv") |> 
+  filter(year == 1999) |> 
+  mutate(state = str_to_lower(str_squish(state)))  # Standardize state names for merging
+
+# Load US state boundary data from the maps package
+states_polygon <- map_data("state") |> 
+  as_tibble() |> 
+  rename(State = region)  # Ensure naming consistency for merging
+
+# Check for any unmatched states before merging (Excluding Alaska and Hawaii)
+anti_join(Guns_1999, states_polygon, by = c("state" = "State"))  
+
+# Merge violent crime data with state boundaries
+data_static <- states_polygon |> 
+  left_join(Guns_1999, by = c("State" = "state"))
+
+# Generate static choropleth map for violent crime rate
+ggplot(data_static, aes(x = long, y = lat, group = group, fill = violent)) +
+  geom_polygon(color = "black", linewidth = 0.2) +
+  scale_fill_viridis_c(option = "magma", name = "Violent Crime Rate", direction = -1) +
+  coord_map() + 
+  theme_void() +
+  labs(title = "Violent Crime Rate per 100,000 (1999)",
+       caption = "Source: Guns dataset")
+```
+
+Alt-text: 
+
+
+This choropleth map displays the violent crime rate per 100,000 population across U.S. states in 1999. The x-axis represents longitude, and the y-axis represents latitude, outlining the U.S. state boundaries, while the color scale represents crime rates, ranging from light yellow (0-400 per 100,000) to dark purple (1,600+ per 100,000). The highest violent crime rates (dark purple) are concentrated in southern states like South Carolina, Florida and Louisiana, as well as parts of the Southwest like New Mexico. In contrast, the lowest crime rates (light yellow) appear in northern and midwestern states, including North Dakota, Maine, and Vermont. Most states exhibit moderate crime rates (orange to red), with a regional pattern suggesting that violent crime was generally higher in the South and Southwest and lower in the North. This visualization helps compare crime rates geographically, revealing clear regional differences.
+
+```{r}
+# ----------- Seat Belt Law Enforcement Map (1997) -----------
+
+# Data source title: Effects of Mandatory Seat Belt Laws in the US 
+# (https://vincentarelbundock.github.io/Rdatasets/datasets.html) 
+
+# About this Dataset: 
+# (https://vincentarelbundock.github.io/Rdatasets/doc/AER/USSeatBelts.html)
+
+# Load and filter seat belt law enforcement data for 1997
+USSeatBelts_1997 <- read_csv("USSeatBelts.csv") |> 
+  filter(year == 1997) |> 
+  mutate(state = state.name[match(state, state.abb)],  
+         # Convert state abbreviations to full names
+         state = str_to_lower(str_squish(state))) |>  
+  # Standardize state names for merging
+  drop_na(state)  # Ensure all state names are valid before merging
+
+# Load US state boundary data
+states_polygon <- map_data("state") |> 
+  as_tibble() |> 
+  rename(State = region)
+
+# Check for any unmatched states before merging (Excluding Alaska and Hawaii)
+anti_join(USSeatBelts_1997, states_polygon, by = c("state" = "State"))  
+
+# Merge seat belt law enforcement data with state boundaries
+data_static <- states_polygon |> 
+  left_join(USSeatBelts_1997, by = c("State" = "state")) |> 
+  mutate(enforce = replace_na(enforce, "NA"))  # Explicitly label missing enforcement data
+
+# Define categorical color mapping for seat belt laws
+enforce_colors <- c("no" = "yellow", 
+                    "primary" = "blue", 
+                    "secondary" = "red", 
+                    "NA" = "gray")  # Custom color scheme
+
+# Generate static choropleth map for seat belt law enforcement
+ggplot(data_static, aes(x = long, y = lat, group = group, fill = enforce)) +
+  geom_polygon(color = "black", linewidth = 0.2) +
+  scale_fill_manual(values = enforce_colors, name = "Enforcement", na.value = "gray") +
+  coord_map() + 
+  theme_void() +
+  labs(title = "Seat Belt Law Enforcement by State (1997)",
+       caption = "Source: USSeatBelts dataset")
+```
+
+Alt-text: 
+
+
+This choropleth map displays seat belt law enforcement classifications across U.S. states in 1997. The x-axis represents longitude, and the y-axis represents latitude, defining U.S. state boundaries, while the color scale represents the type of seat belt law enforcement. The categories include yellow for "no enforcement", blue for "primary enforcement", red for "secondary enforcement", and gray for missing data (NA). Most states are red, indicating secondary enforcement, while primary enforcement (blue) is concentrated in a few states, such as Oregon, New Mexico, Texas, and New York. Surprisingly, New Hampshire is the only state with no enforcement (yellow) in this year. The geographic distribution suggests that in 1997, secondary enforcement was the dominant policy, with primary enforcement laws less common and regionally scattered. This map helps visualize the state-level differences in seat belt law enforcement during that year.
+

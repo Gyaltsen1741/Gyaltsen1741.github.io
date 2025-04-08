@@ -1,11 +1,30 @@
 ---
-title: "Gyaltsen1741.github.io"
+title: "Tenzin Gyaltsen"
+format: html
+page-layout: full
+sidebar: false
+image: Self_Photo.jpeg
 ---
 
-This is a Quarto website.
+## ![](Self_Photo.jpeg){width=150px style="border-radius: 50%; margin-bottom: 1em;"}
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+# Tenzin Gyaltsen  
 
-```{r}
-1 + 1
-```
+_Biology & Chemistry Major Student_  
+_Statistics & Data Science Concentration Student_  
+St. Olaf College  
+
+---
+
+### Education
+
+  **BA in Biology, Chemistry, and Statistics & Data Science**  
+  *Expected 2026 | St. Olaf College*
+
+---
+
+### Get in Touch
+
+**Email:** gyalts2@stolaf.edu  
+**GitHub:** [github.com/gyaltsen1741](https://github.com/gyaltsen1741)
+

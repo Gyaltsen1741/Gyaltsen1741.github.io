@@ -1,0 +1,11 @@
+---
+title: "Courses"
+format: html
+---
+
+# Courses
+
+- STAT 272: Statistical Modeling
+- STAT 298: Intro to Data Science
+- BIO 261: Ecological Interactions Lab
+
