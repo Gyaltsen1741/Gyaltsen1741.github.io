@@ -2,7 +2,7 @@
 title: "Mini-Project2"
 author: "Tenzin Gyaltsen, Shen Rothermel"
 format:
-  pdf: default
+  html: default
 editor_options: 
   chunk_output_type: console
 ---
