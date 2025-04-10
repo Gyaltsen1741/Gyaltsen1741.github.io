@@ -36,7 +36,7 @@ These questions open the door for future data visualizations (like scatterplots 
 
 To acquire the data, we used a custom scraping function along with an iteration technique (pmap) to systematically collect comparable squad stats from each league's respective webpage. This ensures consistency while handling slight variations in webpage structure — such as differing table positions.
 
-## Scraping the “Squad Standard Stats” table
+## Scraping the “Squad Standard Stats” Table
 
 To begin, we manually scrape the Major League Soccer (MLS) stats page using rvest. This allows us to locate and inspect the structure of all tables on the page, which helps identify the correct table containing squad-level statistics.
 

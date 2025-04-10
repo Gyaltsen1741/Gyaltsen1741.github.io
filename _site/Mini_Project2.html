@@ -131,11 +131,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Courses</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Mini-Project_1_Static_maps.qmd"> 
+    <a class="nav-link" href="./Mini-Project_1_Static_Maps.html"> 
 <span class="menu-text">Mini Project 1: Static Maps</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Mini-Project_1_Interactive_maps.qmd"> 
+    <a class="nav-link" href="./Mini-Project_1_Interactive_Maps.html"> 
 <span class="menu-text">Mini Project 1: Interactive Maps</span></a>
   </li>  
   <li class="nav-item">
@@ -162,7 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
-  <li><a href="#scraping-the-squad-standard-stats-table" id="toc-scraping-the-squad-standard-stats-table" class="nav-link" data-scroll-target="#scraping-the-squad-standard-stats-table">Scraping the “Squad Standard Stats” table</a></li>
+  <li><a href="#scraping-the-squad-standard-stats-table" id="toc-scraping-the-squad-standard-stats-table" class="nav-link" data-scroll-target="#scraping-the-squad-standard-stats-table">Scraping the “Squad Standard Stats” Table</a></li>
   <li><a href="#creating-a-custom-web-scraping-function" id="toc-creating-a-custom-web-scraping-function" class="nav-link" data-scroll-target="#creating-a-custom-web-scraping-function">Creating a Custom Web Scraping Function</a></li>
   <li><a href="#iterating-over-multiple-competitions" id="toc-iterating-over-multiple-competitions" class="nav-link" data-scroll-target="#iterating-over-multiple-competitions">Iterating Over Multiple Competitions</a></li>
   </ul></li>
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>To acquire the data, we used a custom scraping function along with an iteration technique (pmap) to systematically collect comparable squad stats from each league’s respective webpage. This ensures consistency while handling slight variations in webpage structure — such as differing table positions.</p>
 </section>
 <section id="scraping-the-squad-standard-stats-table" class="level2">
-<h2 class="anchored" data-anchor-id="scraping-the-squad-standard-stats-table">Scraping the “Squad Standard Stats” table</h2>
+<h2 class="anchored" data-anchor-id="scraping-the-squad-standard-stats-table">Scraping the “Squad Standard Stats” Table</h2>
 <p>To begin, we manually scrape the Major League Soccer (MLS) stats page using rvest. This allows us to locate and inspect the structure of all tables on the page, which helps identify the correct table containing squad-level statistics.</p>
 <p>Once we confirm the correct table is loaded (in this case, table 5), we clean it by promoting the first row to column headers, standardizing names, and parsing numeric columns. This results in a tidy dataset ready for analysis.</p>
 <div class="cell">
