@@ -1,11 +1,20 @@
 ---
-title: "Mini-Project2"
-author: "Tenzin Gyaltsen, Shen Rothermel"
 format:
-  html: default
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    page-layout: full
+    css: styles.css
 editor_options: 
   chunk_output_type: console
 ---
+
+<div style="text-align: left;">
+
+# Mini Project 2
+
+#### Authors: Tenzin Gyaltsen, Shen Rothermel
 
 ## Introduction
 
@@ -27,14 +36,16 @@ These questions open the door for future data visualizations (like scatterplots 
 
 To acquire the data, we used a custom scraping function along with an iteration technique (pmap) to systematically collect comparable squad stats from each league's respective webpage. This ensures consistency while handling slight variations in webpage structure — such as differing table positions.
 
-## Scraping the “Squad Standard Stats” table:
+## Scraping the “Squad Standard Stats” table
 
 To begin, we manually scrape the Major League Soccer (MLS) stats page using rvest. This allows us to locate and inspect the structure of all tables on the page, which helps identify the correct table containing squad-level statistics.
 
 Once we confirm the correct table is loaded (in this case, table 5), we clean it by promoting the first row to column headers, standardizing names, and parsing numeric columns. This results in a tidy dataset ready for analysis.
 
 ```{r}
-#| results: hide
+#| echo: true
+#| message: false
+#| warning: false
 
 library(rvest)
 library(janitor)
@@ -48,10 +59,23 @@ robotstxt::paths_allowed("https://fbref.com/en/comps/22/Major-League-Soccer-Stat
 
 # Step 1: Read the page with rvest
 MLS_table <- read_html("https://fbref.com/en/comps/22/Major-League-Soccer-Stats")
+```
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+#| results: "hide"
 
 # Step 2: Extract tables from the page
 Squad <- html_nodes(MLS_table, "table")
 html_table(Squad, header = TRUE, fill = TRUE)  # find right table
+```
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 # Step 3: Extract the correct table (the fifth table on the page)
 Squad2 <- html_table(Squad, header = TRUE, fill = TRUE)[[5]]
@@ -64,17 +88,18 @@ Squad2_cleaned <- Squad2 |>
   select(1:16) |>                   # keep only the first 16 columns
   filter(squad != "Squad") |>       # remove header repeats if any
   mutate(across(2:16, parse_number))# apply parse_number to cols 2–16
-```
-
-```{r}
 Squad2_cleaned
 ```
 
-## Creating a Custom Web Scraping Function:
+## Creating a Custom Web Scraping Function
 
 Next, we generalize this scraping process by writing a custom function called scrape_fbref_table(). This function takes in a URL and table number and performs all the cleaning steps automatically. We use it to easily scrape multiple pages later on.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # Custom Function
 scrape_fbref_table <- function(url, table_number = 5, n_cols = 16) {
   page <- read_html(url)
@@ -100,6 +125,10 @@ Squad2_cleaned
 We used purrr::pmap() to iterate over multiple variables — specifically, league URLs, the table numbers containing the "Squad Standard Stats" table for each competition, and the league names. This allowed us to apply our custom scraping function across multiple soccer leagues, each with its own unique webpage and table structure. This approach demonstrates how iteration over multiple inputs can automate the data collection process across structured but inconsistent sources. 
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # Step 1: Define league names, URLs, and their specific table numbers
 leagues <- tibble::tibble(
   league = c("MLS", "Premier_League", "La_Liga", "Bundesliga", "Serie_A"),
@@ -132,4 +161,6 @@ league_tables$La_Liga
 league_tables$Bundesliga
 league_tables$Serie_A
 ```
+
+</div>
 

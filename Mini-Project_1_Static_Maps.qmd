@@ -1,13 +1,28 @@
 ---
-title: 'Mini-Project 1 Static Maps'
-author: Tenzin Gyaltsen
 format:
-  html: default
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    page-layout: full
+    css: styles.css
 editor_options: 
   chunk_output_type: console
 ---
 
-```{r, Static Maps}
+<div style="text-align: left;">
+
+# Mini Project 1 Static Maps
+
+#### Author: Tenzin Gyaltsen
+
+## Violent Crime Rate Static Map (1999)
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # Load necessary libraries
 library(tidyverse)
 library(maps)
@@ -49,12 +64,17 @@ ggplot(data_static, aes(x = long, y = lat, group = group, fill = violent)) +
        caption = "Source: Guns dataset")
 ```
 
-Alt-text: 
-
+#### Alt-text: 
 
 This choropleth map displays the violent crime rate per 100,000 population across U.S. states in 1999. The x-axis represents longitude, and the y-axis represents latitude, outlining the U.S. state boundaries, while the color scale represents crime rates, ranging from light yellow (0-400 per 100,000) to dark purple (1,600+ per 100,000). The highest violent crime rates (dark purple) are concentrated in southern states like South Carolina, Florida and Louisiana, as well as parts of the Southwest like New Mexico. In contrast, the lowest crime rates (light yellow) appear in northern and midwestern states, including North Dakota, Maine, and Vermont. Most states exhibit moderate crime rates (orange to red), with a regional pattern suggesting that violent crime was generally higher in the South and Southwest and lower in the North. This visualization helps compare crime rates geographically, revealing clear regional differences.
 
+## Seat Belt Law Enforcement Static Map (1997)
+
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # ----------- Seat Belt Law Enforcement Map (1997) -----------
 
 # Data source title: Effects of Mandatory Seat Belt Laws in the US 
@@ -101,8 +121,8 @@ ggplot(data_static, aes(x = long, y = lat, group = group, fill = enforce)) +
        caption = "Source: USSeatBelts dataset")
 ```
 
-Alt-text: 
-
+#### Alt-text: 
 
 This choropleth map displays seat belt law enforcement classifications across U.S. states in 1997. The x-axis represents longitude, and the y-axis represents latitude, defining U.S. state boundaries, while the color scale represents the type of seat belt law enforcement. The categories include yellow for "no enforcement", blue for "primary enforcement", red for "secondary enforcement", and gray for missing data (NA). Most states are red, indicating secondary enforcement, while primary enforcement (blue) is concentrated in a few states, such as Oregon, New Mexico, Texas, and New York. Surprisingly, New Hampshire is the only state with no enforcement (yellow) in this year. The geographic distribution suggests that in 1997, secondary enforcement was the dominant policy, with primary enforcement laws less common and regionally scattered. This map helps visualize the state-level differences in seat belt law enforcement during that year.
 
+</div>

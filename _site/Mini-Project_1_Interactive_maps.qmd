@@ -1,13 +1,28 @@
 ---
-title: 'Mini-Project_1_Interactive_Maps'
-author: Tenzin Gyaltsen
-format: 
-  html: default
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    page-layout: full
+    css: styles.css
 editor_options: 
   chunk_output_type: console
 ---
 
-```{r, Interactive Maps}
+<div style="text-align: left;">
+
+# Mini Project 1 Interactive Maps
+
+#### Author: Tenzin Gyaltsen
+
+## Violent Crime Rate Interactive Map (1999)
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # Load necessary libraries
 library(tidyverse)
 library(sf)
@@ -71,7 +86,14 @@ leaflet(data_interactive) |>
             opacity = 0.7, 
             title = "Violent Crime Rate (1999)", 
             position = "bottomright")
+```
 
+## Seat Belt Law Enforcement Interactive Map (1997)
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 # ----------- Seat Belt Law Enforcement Map (1997) -----------
 
@@ -131,3 +153,4 @@ leaflet(data_interactive) |>
             position = "bottomright")
 ```
 
+</div>

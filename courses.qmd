@@ -1,54 +1,20 @@
 ---
-format: 
+format:
   html:
-    page-layout: full
-    toc: false
     theme: cosmo
+    toc: true
+    toc-location: right
+    page-layout: full
+    css: styles.css
+editor_options: 
+  chunk_output_type: console
 ---
-
-<style>
-.sidebar-custom {
-  position: fixed;
-  right: 2rem;
-  top: 100px;
-  width: 180px;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  text-align: left;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-.sidebar-custom a {
-  text-decoration: none;
-  color: #333;
-}
-.sidebar-custom a:hover {
-  text-decoration: underline;
-}
-</style>
-
-<!-- Right Sidebar Navigation -->
-<div class="sidebar-custom">
-
-**🧭 Navigation**
-[Spring 2025](#spring-2025) <br>
-[January Term 2025](#january-term-2025) <br>
-[Fall 2024 to 2025](#fall-2024-to-2025) <br>
-[Spring 2024](#spring-2024) <br>
-[January Term 2024](#january-term-2024) <br>
-[Fall 2023 to 2024](#fall-2023-to-2024) <br>
-[Spring 2023](#spring-2023) <br>
-[January Term 2023](#january-term-2023) <br>
-[Fall 2022 to 2023](#fall-2022-to-2023) <br>
-
-</div>
 
 ::: {.course-wrapper style="text-align: left;"}
 
-# 📚 Courses
+# Courses 
+
+- All taken @ <a href="https://wp.stolaf.edu/" target="_blank">St. Olaf College</a>
 
 <style>
 .course-table {
@@ -84,6 +50,8 @@ format:
 }
 </style>
 
+## Junior Year
+
 ### Spring 2025 {#spring-2025}
 
 <table class="course-table">
@@ -117,6 +85,8 @@ format:
   <tr><td>SDS 272</td><td>Statistics 2</td></tr>
 </table>
 
+## Sophomore Year
+
 ### Spring 2024 {#spring-2024}
 
 <table class="course-table">
@@ -147,6 +117,8 @@ format:
   <tr><td>CHEM 253</td><td>Synthesis Lab I</td></tr>
   <tr><td>PSCI 245</td><td>Asian Regionalism</td></tr>
 </table>
+
+## Freshman Year
 
 ### Spring 2023 {#spring-2023}
 

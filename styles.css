@@ -1,7 +1,17 @@
-/* css styles */
-body {
+/* Only center the content, not the whole body */
+main {
   text-align: center;
 }
+
+/* Make all images square by default */
 img {
-  border-radius: 50%;
+  border-radius: 0; /* Remove the circular styling */
+}
+
+/* Force left-alignment for the TOC */
+.nav-page-toc,
+.nav-page-toc ul,
+.nav-page-toc li {
+  text-align: left !important;
+  list-style-position: inside;
 }
