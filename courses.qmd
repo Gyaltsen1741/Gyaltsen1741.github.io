@@ -1,11 +1,183 @@
 ---
-title: "Courses"
-format: html
+format: 
+  html:
+    page-layout: full
+    toc: false
+    theme: cosmo
 ---
 
-# Courses
+<style>
+.sidebar-custom {
+  position: fixed;
+  right: 2rem;
+  top: 100px;
+  width: 180px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-align: left;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.sidebar-custom a {
+  text-decoration: none;
+  color: #333;
+}
+.sidebar-custom a:hover {
+  text-decoration: underline;
+}
+</style>
 
-- STAT 272: Statistical Modeling
-- STAT 298: Intro to Data Science
-- BIO 261: Ecological Interactions Lab
+<!-- Right Sidebar Navigation -->
+<div class="sidebar-custom">
 
+**🧭 Navigation**
+[Spring 2025](#spring-2025) <br>
+[January Term 2025](#january-term-2025) <br>
+[Fall 2024 to 2025](#fall-2024-to-2025) <br>
+[Spring 2024](#spring-2024) <br>
+[January Term 2024](#january-term-2024) <br>
+[Fall 2023 to 2024](#fall-2023-to-2024) <br>
+[Spring 2023](#spring-2023) <br>
+[January Term 2023](#january-term-2023) <br>
+[Fall 2022 to 2023](#fall-2022-to-2023) <br>
+
+</div>
+
+::: {.course-wrapper style="text-align: left;"}
+
+# 📚 Courses
+
+<style>
+.course-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+}
+
+.course-table th {
+  background-color: #f5b700;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.course-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.course-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.term-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+</style>
+
+### Spring 2025 {#spring-2025}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>BIO 242</td><td>Vertebrate Biology</td></tr>
+  <tr><td>BIO 242</td><td>Vertebrate Biology Lab</td></tr>
+  <tr><td>BIO 261</td><td>Ecological Principles</td></tr>
+  <tr><td>BIO 261</td><td>Ecological Principles Lab</td></tr>
+  <tr><td>PHYS 125</td><td>Principles Physics II</td></tr>
+  <tr><td>PHYS 125</td><td>Principles Physics II Lab</td></tr>
+  <tr><td>SDS 264</td><td>Data Science 2</td></tr>
+</table>
+
+### January Term 2025 {#january-term-2025}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>CHEM 252</td><td>Organometallic Chem</td></tr>
+</table>
+
+### Fall 2024 to 2025 {#fall-2024-to-2025}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>CHEM 255</td><td>Analytical Chemistry</td></tr>
+  <tr><td>CHEM 256</td><td>Analytical Lab</td></tr>
+  <tr><td>ID 300</td><td>OEP Zero-Credit Course</td></tr>
+  <tr><td>PHYS 124</td><td>Principles Physics I</td></tr>
+  <tr><td>PHYS 164</td><td>Principles Physics I Lab</td></tr>
+  <tr><td>SDS 164</td><td>Data Science 1</td></tr>
+  <tr><td>SDS 272</td><td>Statistics 2</td></tr>
+</table>
+
+### Spring 2024 {#spring-2024}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>BIO 233</td><td>Intermediate Genetics</td></tr>
+  <tr><td>BIO 233</td><td>Intermediate Genetics Lab</td></tr>
+  <tr><td>CHEM 248</td><td>Organic Chemistry II</td></tr>
+  <tr><td>CHEM 254</td><td>Synthesis Lab II</td></tr>
+  <tr><td>PHIL 244</td><td>Philosophy of Science</td></tr>
+  <tr><td>PHil 258</td><td>Ethics, Economics & the Marketplace</td></tr>
+</table>
+
+### January Term 2024 {#january-term-2024}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>PHIL 120</td><td>Philosophy in Literature</td></tr>
+</table>
+
+### Fall 2023 to 2024 {#fall-2023-to-2024}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>AS/RE 257</td><td>Buddhism</td></tr>
+  <tr><td>BIO 150</td><td>Biodiversity Foundations</td></tr>
+  <tr><td>BIO 150</td><td>Biodiversity Found Lab</td></tr>
+  <tr><td>CHEM 247</td><td>Organic Chemistry I</td></tr>
+  <tr><td>CHEM 253</td><td>Synthesis Lab I</td></tr>
+  <tr><td>PSCI 245</td><td>Asian Regionalism</td></tr>
+</table>
+
+### Spring 2023 {#spring-2023}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>CH/BI 227</td><td>Integrated Chem/Bio III</td></tr>
+  <tr><td>CH/BI 227</td><td>Integr Chem/Bio III Lab</td></tr>
+  <tr><td>SOAN 121</td><td>Intro to Sociology</td></tr>
+  <tr><td>STAT 212</td><td>Statistics for Science</td></tr>
+  <tr><td>WRIT 120</td><td>Top: Art, Materiality, Making Asia</td></tr>
+  <tr><td>WRIT 120</td><td>SOAR Discussion</td></tr>
+</table>
+
+### January Term 2023 {#january-term-2023}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>CH/BI 126</td><td>Integrated Chem/Bio II</td></tr>
+  <tr><td>CH/BI 126</td><td>Integrate Chem/Bio II Lab</td></tr>
+</table>
+
+### Fall 2022 to 2023 {#fall-2022-to-2023}
+
+<table class="course-table">
+  <tr><th>Course</th><th>Description</th></tr>
+  <tr><td>CH/BI 125</td><td>Integrated Chem/Bio I</td></tr>
+  <tr><td>CH/BI 125</td><td>Integrated Chem/Bio I Lab</td></tr>
+  <tr><td>FYS 120</td><td>Top: The Making of Modern Science</td></tr>
+  <tr><td>FYS 120</td><td>SOAR Discussion</td></tr>
+  <tr><td>MATH 126</td><td>Calculus II</td></tr>
+  <tr><td>PSYCH 125</td><td>Principles: Psych</td></tr>
+</table>
+
+:::

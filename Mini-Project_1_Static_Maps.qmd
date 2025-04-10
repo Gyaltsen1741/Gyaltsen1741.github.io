@@ -2,7 +2,7 @@
 title: 'Mini-Project 1 Static Maps'
 author: Tenzin Gyaltsen
 format:
-  pdf: default
+  html: default
 editor_options: 
   chunk_output_type: console
 ---

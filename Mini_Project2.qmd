@@ -34,7 +34,6 @@ To begin, we manually scrape the Major League Soccer (MLS) stats page using rves
 Once we confirm the correct table is loaded (in this case, table 5), we clean it by promoting the first row to column headers, standardizing names, and parsing numeric columns. This results in a tidy dataset ready for analysis.
 
 ```{r}
-
 #| results: hide
 
 library(rvest)

@@ -41,7 +41,7 @@ sidebar: false
 
 Biology & Chemistry Major Student <br>
 Statistics & Data Science Concentration Student <br>
-<a href="https://wp.stolaf.edu/" target="_blank">St. Olaf College</a>
+Junior Student @ <a href="https://wp.stolaf.edu/" target="_blank">St. Olaf College</a>
 
 <span style="font-size: 2rem; font-weight: bold;">Education</span>
 

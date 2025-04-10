@@ -1,8 +1,8 @@
 ---
 title: 'Mini-Project_1_Interactive_Maps'
 author: Tenzin Gyaltsen
-format: html
-editor: source
+format: 
+  html: default
 editor_options: 
   chunk_output_type: console
 ---
