@@ -3,6 +3,10 @@ project:
 
 website:
   title: "Gyaltsen1741.github.io"
+  site-url: https://gyaltsen1741.github.io
+  description: "Portfolio site for Tenzin Gyaltsen, a student of Biology, Chemistry, and Data Science at St. Olaf College."
+  open-graph: true
+  twitter-card: true
   navbar:
     left:
       - text: "Home"
@@ -15,9 +19,20 @@ website:
         href: Mini-Project_1_Interactive_Maps.qmd
       - text: "Mini Project 2"
         href: Mini_Project2.qmd
+
 format:
   html:
     theme: cosmo
+    toc: true
+    toc-location: right
+    page-layout: full
     css: styles.css
+    code-fold: show        # this makes code visible by default
+    code-tools: true       # shows the toggle button
+    code-summary: "Hide Code"  # optional: label when code is visible
+    include-in-header:
+      - text: |
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
 
 

@@ -96,7 +96,7 @@ editor_options:
   <tr><td>CHEM 248</td><td>Organic Chemistry II</td></tr>
   <tr><td>CHEM 254</td><td>Synthesis Lab II</td></tr>
   <tr><td>PHIL 244</td><td>Philosophy of Science</td></tr>
-  <tr><td>PHil 258</td><td>Ethics, Economics & the Marketplace</td></tr>
+  <tr><td>PHIL 258</td><td>Ethics, Economics & the Marketplace</td></tr>
 </table>
 
 ### January Term 2024 {#january-term-2024}

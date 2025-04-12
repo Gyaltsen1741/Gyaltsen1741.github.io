@@ -162,5 +162,7 @@ league_tables$Bundesliga
 league_tables$Serie_A
 ```
 
+We kept the league tables separate to maintain flexibility in our analysis. This structure allows future us to explore each league individually or easily join the datasets later if a combined analysis across leagues becomes relevant.
+
 </div>
 

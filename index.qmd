@@ -10,21 +10,28 @@ sidebar: false
 <div style="text-align: center; min-width: 360px;">
 
 <!-- Profile image -->
-![](Self_Photo.jpeg){width=400px style="border-radius: 50%; margin-bottom: 1rem;"}
+<img src="Self_Photo.jpeg" class="profile-image">
 
 <span style="font-size: 2rem; font-weight: bold;">Tenzin Gyaltsen</span>
 
-<a href="mailto:gyalts2@stolaf.edu" style="padding: 10px 16px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; margin-right: 0.5rem; font-size: 1rem;">Email Me</a>
-<a href="https://github.com/gyaltsen1741" target="_blank" style="padding: 10px 16px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; font-size: 1rem;">GitHub</a>
+<a href="mailto:gyalts2@stolaf.edu" class="contact-button">Email Me</a>
+<a href="https://github.com/gyaltsen1741" class="contact-button" target="_blank"> 
+<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon">
+  GitHub
+</a>
 
 <!-- Left-align Get in Touch -->
 <div style="text-align: left; margin-top: 2rem;">
 
+Biology & Chemistry Major Student <br>
+Statistics & Data Science Concentration Student <br>
+Junior Student @ <a href="https://wp.stolaf.edu/" target="_blank">St. Olaf College</a>
+
 <span style="font-size: 2rem; font-weight: bold;">Get in Touch</span>
 
-**Email:** <a href="mailto:gyalts2@stolaf.edu" style="color: #333; text-decoration: underline;">gyalts2@stolaf.edu</a>  
-**Address:** 1500 St. Olaf Ave, Northfield, MN 55057  
-**Phone:** 507-581-2962
+**Email:** <a href="mailto:gyalts2@stolaf.edu" style="color: #333; text-decoration: underline;">gyalts2@stolaf.edu</a> <br>
+**Address:** 1500 St. Olaf Ave, Northfield, MN 55057  <br>
+**Phone:** 507-581-2962 <br>
 
 </div>
 </div>
@@ -37,11 +44,14 @@ sidebar: false
 
 <span style="font-size: 2rem; font-weight: bold;">Tenzin Gyaltsen</span>
 
-![](Flag.png){width=240px height=120px style="border-radius: 0; margin-bottom: 1rem;"}
+Pronouns: He/Him <br>
 
-Biology & Chemistry Major Student <br>
-Statistics & Data Science Concentration Student <br>
-Junior Student @ <a href="https://wp.stolaf.edu/" target="_blank">St. Olaf College</a>
+Home Country: India <br>
+<img src="Flag2.png" class="flag-image"> <br>
+Ethnicity: Tibetan <br>
+<img src="Flag.png" class="flag-image"> <br> 
+
+Hobbies: Love to ride a bike, listen to music and play table-tennis. <br>
 
 <span style="font-size: 2rem; font-weight: bold;">Education</span>
 
@@ -54,9 +64,12 @@ Expected 2026 | St. Olaf College, US
 **Middle School Graduate**  
 2018 | TCV School Suja, India
 
-</div>
+<a href="https://github.com/Gyaltsen1741/Gyaltsen1741.github.io.git" 
+   class="contact-button" target="_blank">
+<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon">
+  Source Code
+</a>
 
 </div>
 
-
-
+</div>

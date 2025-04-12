@@ -66,9 +66,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Gyaltsen1741.github.io">
+<meta property="og:site_name" content="Gyaltsen1741.github.io">
+<meta name="twitter:title" content="Gyaltsen1741.github.io">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-fixed">
@@ -130,15 +135,14 @@ ul.task-list li input[type="checkbox"] {
 <!-- Left side: Image, Name, Buttons, Contact Info -->
 <div style="text-align: center; min-width: 360px;">
 <!-- Profile image -->
-<p><img src="Self_Photo.jpeg" class="img-fluid" style="border-radius: 50%; margin-bottom: 1rem;" width="400"></p>
+<p><img src="Self_Photo.jpeg" class="profile-image"></p>
 <p><span style="font-size: 2rem; font-weight: bold;">Tenzin Gyaltsen</span></p>
-<p><a href="mailto:gyalts2@stolaf.edu" style="padding: 10px 16px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; margin-right: 0.5rem; font-size: 1rem;">Email Me</a> <a href="https://github.com/gyaltsen1741" target="_blank" style="padding: 10px 16px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; font-size: 1rem;">GitHub</a></p>
+<p><a href="mailto:gyalts2@stolaf.edu" class="contact-button">Email Me</a> <a href="https://github.com/gyaltsen1741" class="contact-button" target="_blank"> <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon"> GitHub </a></p>
 <!-- Left-align Get in Touch -->
 <div style="text-align: left; margin-top: 2rem;">
+<p>Biology &amp; Chemistry Major Student <br> Statistics &amp; Data Science Concentration Student <br> Junior Student @ <a href="https://wp.stolaf.edu/" target="_blank">St.&nbsp;Olaf College</a></p>
 <p><span style="font-size: 2rem; font-weight: bold;">Get in Touch</span></p>
-<p><strong>Email:</strong> <a href="mailto:gyalts2@stolaf.edu" style="color: #333; text-decoration: underline;">gyalts2@stolaf.edu</a><br>
-<strong>Address:</strong> 1500 St.&nbsp;Olaf Ave, Northfield, MN 55057<br>
-<strong>Phone:</strong> 507-581-2962</p>
+<p><strong>Email:</strong> <a href="mailto:gyalts2@stolaf.edu" style="color: #333; text-decoration: underline;">gyalts2@stolaf.edu</a> <br> <strong>Address:</strong> 1500 St.&nbsp;Olaf Ave, Northfield, MN 55057 <br> <strong>Phone:</strong> 507-581-2962 <br></p>
 </div>
 </div>
 <!-- Divider line -->
@@ -148,8 +152,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- Right side: Bio and Education -->
 <div style="text-align: left; flex: 1;">
 <p><span style="font-size: 2rem; font-weight: bold;">Tenzin Gyaltsen</span></p>
-<p><img src="Flag.png" style="border-radius: 0; margin-bottom: 1rem;" width="240" height="120"></p>
-<p>Biology &amp; Chemistry Major Student <br> Statistics &amp; Data Science Concentration Student <br> Junior Student @ <a href="https://wp.stolaf.edu/" target="_blank">St.&nbsp;Olaf College</a></p>
+<p>Pronouns: He/Him <br></p>
+<p>Home Country: India <br> <img src="Flag2.png" class="flag-image"> <br> Ethnicity: Tibetan <br> <img src="Flag.png" class="flag-image"> <br></p>
+<p>Hobbies: Love to ride a bike, listen to music and play table-tennis. <br></p>
 <p><span style="font-size: 2rem; font-weight: bold;">Education</span></p>
 <p><strong>BA in Biology, Chemistry, and Statistics &amp; Data Science</strong><br>
 Expected 2026 | St.&nbsp;Olaf College, US</p>
@@ -157,6 +162,7 @@ Expected 2026 | St.&nbsp;Olaf College, US</p>
 2022 | UWC Adriatic International High School, Italy</p>
 <p><strong>Middle School Graduate</strong><br>
 2018 | TCV School Suja, India</p>
+<p><a href="https://github.com/Gyaltsen1741/Gyaltsen1741.github.io.git" class="contact-button" target="_blank"> <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="github-icon"> Source Code </a></p>
 </div>
 </div>
 
@@ -255,7 +261,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/gyaltsen1741\.github\.io");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

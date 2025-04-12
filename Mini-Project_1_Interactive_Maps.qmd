@@ -18,6 +18,8 @@ editor_options:
 
 ## Violent Crime Rate Interactive Map (1999)
 
+Explore how violent crime rates varied across U.S. states in 1999 using this interactive map. Hover over any state to view its crime rate per 100,000 residents.
+
 ```{r}
 #| echo: true
 #| message: false
@@ -88,7 +90,11 @@ leaflet(data_interactive) |>
             position = "bottomright")
 ```
 
+📝 **Insight:** States with higher crime rates (darker purple) tend to cluster in the South and Southwest. Many northern states had comparatively lower rates.
+
 ## Seat Belt Law Enforcement Interactive Map (1997)
+
+This interactive map shows seat belt law enforcement types in 1997. You can hover over any state to see if they had primary, secondary, or no enforcement at all.
 
 ```{r}
 #| echo: true
@@ -152,5 +158,7 @@ leaflet(data_interactive) |>
             title = "Seat Belt Law Enforcement (1997)", 
             position = "bottomright")
 ```
+
+📝 **Insight:** Secondary enforcement was the dominant seat belt policy in 1997. Only a few states had adopted primary enforcement, and New Hampshire stood out with no enforcement.
 
 </div>

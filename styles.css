@@ -1,17 +1,76 @@
-/* Only center the content, not the whole body */
+/* Global Font */
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+/* Main layout centering content */
 main {
   text-align: center;
 }
 
-/* Make all images square by default */
+/* Image styling */
 img {
-  border-radius: 0; /* Remove the circular styling */
+  border-radius: 0; /* default square */
 }
 
-/* Force left-alignment for the TOC */
+/* Force left alignment of Table of Contents */
 .nav-page-toc,
 .nav-page-toc ul,
 .nav-page-toc li {
   text-align: left !important;
   list-style-position: inside;
+}
+
+/* Profile layout responsiveness */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .profile-image, .profile-info {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+  }
+}
+
+/* Profile Image */
+.profile-image {
+  width: 400px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+/* Buttons like Email Me, GitHub */
+.contact-button {
+  padding: 10px 16px;
+  background-color: #333;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin: 0.5rem;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #555;
+}
+
+.flag-image {
+  width: 240px;
+  height: 120px;
+  border-radius: 0;
+  margin-bottom: 1rem;
+}
+
+.github-icon {
+  height: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
 }

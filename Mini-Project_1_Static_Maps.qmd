@@ -18,6 +18,9 @@ editor_options:
 
 ## Violent Crime Rate Static Map (1999)
 
+What regions of the U.S. had the highest violent crime rates in 1999?  
+This choropleth map uses color gradients to compare crime rates across all 48 continental states, offering a clear regional overview.
+
 ```{r}
 #| echo: true
 #| message: false
@@ -69,6 +72,9 @@ ggplot(data_static, aes(x = long, y = lat, group = group, fill = violent)) +
 This choropleth map displays the violent crime rate per 100,000 population across U.S. states in 1999. The x-axis represents longitude, and the y-axis represents latitude, outlining the U.S. state boundaries, while the color scale represents crime rates, ranging from light yellow (0-400 per 100,000) to dark purple (1,600+ per 100,000). The highest violent crime rates (dark purple) are concentrated in southern states like South Carolina, Florida and Louisiana, as well as parts of the Southwest like New Mexico. In contrast, the lowest crime rates (light yellow) appear in northern and midwestern states, including North Dakota, Maine, and Vermont. Most states exhibit moderate crime rates (orange to red), with a regional pattern suggesting that violent crime was generally higher in the South and Southwest and lower in the North. This visualization helps compare crime rates geographically, revealing clear regional differences.
 
 ## Seat Belt Law Enforcement Static Map (1997)
+
+How were seat belt laws enforced across states in 1997?
+This map highlights state-level differences in law enforcement types and identifies outliers like New Hampshire.
 
 ```{r}
 #| echo: true
