@@ -21,6 +21,9 @@ editor_options:
 What regions of the U.S. had the highest violent crime rates in 1999?  
 This choropleth map uses color gradients to compare crime rates across all 48 continental states, offering a clear regional overview.
 
+- 📘 **Source title**: [More Guns, Less Crime?](https://vincentarelbundock.github.io/Rdatasets/datasets.html)  
+- 🔎 **About this dataset**: [AER::Guns documentation](https://vincentarelbundock.github.io/Rdatasets/doc/AER/Guns.html)
+
 ```{r}
 #| echo: true
 #| message: false
@@ -34,11 +37,6 @@ library(stringr)
 library(readr)
 
 # ----------- Violent Crime Rate Map (1999) -----------
-
-# Data source title: 	More Guns, Less Crime? 
-# (https://vincentarelbundock.github.io/Rdatasets/datasets.html) 
-
-# About this Dataset: (https://vincentarelbundock.github.io/Rdatasets/doc/AER/Guns.html)
 
 # Load and filter Guns dataset for 1999
 Guns_1999 <- read_csv("Guns.csv") |> 
@@ -76,18 +74,15 @@ This choropleth map displays the violent crime rate per 100,000 population acros
 How were seat belt laws enforced across states in 1997?
 This map highlights state-level differences in law enforcement types and identifies outliers like New Hampshire.
 
+- 📘 **Source title**: [Effects of Mandatory Seat Belt Laws in the US](https://vincentarelbundock.github.io/Rdatasets/datasets.html)  
+- 🔎 **About this dataset**: [AER::USSeatBelts documentation](https://vincentarelbundock.github.io/Rdatasets/doc/AER/USSeatBelts.html)
+
 ```{r}
 #| echo: true
 #| message: false
 #| warning: false
 
 # ----------- Seat Belt Law Enforcement Map (1997) -----------
-
-# Data source title: Effects of Mandatory Seat Belt Laws in the US 
-# (https://vincentarelbundock.github.io/Rdatasets/datasets.html) 
-
-# About this Dataset: 
-# (https://vincentarelbundock.github.io/Rdatasets/doc/AER/USSeatBelts.html)
 
 # Load and filter seat belt law enforcement data for 1997
 USSeatBelts_1997 <- read_csv("USSeatBelts.csv") |> 
