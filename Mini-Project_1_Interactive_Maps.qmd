@@ -21,7 +21,7 @@ editor_options:
 Explore how violent crime rates varied across U.S. states in 1999 using this interactive map. Hover over any state to view its crime rate per 100,000 residents.
 
 - 📘 **Source title**: [More Guns, Less Crime?](https://vincentarelbundock.github.io/Rdatasets/datasets.html)  
-- 🔎 **About this dataset**: [Guns documentation](https://vincentarelbundock.github.io/Rdatasets/doc/AER/Guns.html)
+- 🔎 **About this data set**: [Guns documentation](https://vincentarelbundock.github.io/Rdatasets/doc/AER/Guns.html)
 
 ```{r}
 #| echo: true
@@ -100,7 +100,7 @@ leaflet(data_interactive) |>
 This interactive map shows seat belt law enforcement types in 1997. You can hover over any state to see if they had primary, secondary, or no enforcement at all.
 
 - 📘 **Source title**: [Effects of Mandatory Seat Belt Laws in the US](https://vincentarelbundock.github.io/Rdatasets/datasets.html)  
-- 🔎 **About this dataset**: [USSeatBelts documentation](https://vincentarelbundock.github.io/Rdatasets/doc/AER/USSeatBelts.html)
+- 🔎 **About this data set**: [US SeatBelts documentation](https://vincentarelbundock.github.io/Rdatasets/doc/AER/USSeatBelts.html)
 
 ```{r}
 #| echo: true
