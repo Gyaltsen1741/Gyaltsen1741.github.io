@@ -1,0 +1,19 @@
+---
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    page-layout: full
+    css: styles.css
+editor_options: 
+  chunk_output_type: console
+---
+
+<div style="text-align: left;">
+
+# Text Analysis
+
+#### Author: Tenzin Gyaltsen
+
+</div> 

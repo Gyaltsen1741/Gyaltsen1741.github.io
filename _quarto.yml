@@ -20,6 +20,8 @@ website:
         href: Mini-Project_1_Interactive_Maps.qmd
       - text: "Mini Project 2"
         href: Mini_Project2.qmd
+      - text: "Mini Project 4: Text Analysis"
+        href: Mini_Project_4_Text_Analysis.qmd
 
 format:
   html:
