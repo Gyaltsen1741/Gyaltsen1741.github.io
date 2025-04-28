@@ -23,12 +23,18 @@ In this project, I analyze a dataset of tweets from President Barack Obama and F
 To begin the analysis, I combined the tweets from Barack and Michelle Obama into a single dataset. I added a person column to distinguish between authors and formatted the timestamps using ymd_hms() to ensure consistency across records. Cleaning and unifying the dataset was a crucial first step, enabling direct comparisons of tone, topics, and communication strategies between the two figures over time. 
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 library(tidyverse)
 library(lubridate)
 
+# Load and label tweets from Barack and Michelle Obama
 barack <- read_csv("https://joeroith.github.io/264_spring_2025/Data/tweets_potus.csv")
 michelle <- read_csv("https://joeroith.github.io/264_spring_2025/Data/tweets_flotus.csv")
 
+# Combine datasets and format timestamp for easier analysis
 tweets <- bind_rows(
   barack |> mutate(person = "Barack"),
   michelle |> mutate(person = "Michelle")
@@ -41,12 +47,17 @@ tweets <- bind_rows(
 With the dataset prepared, the next step was to extract meaningful features from the tweet text. I used str_detect() to identify the presence of mentions and keywords (such as “hope”), str_extract() to pull out the first hashtag from each tweet, and str_count() to quantify emotional punctuation like exclamation marks. Regular expressions like @\\w+, #\\w+, and \\b(hope|change|love|America)\\b were applied to locate specific patterns that signify engagement, branding, and emotional appeals. By transforming the raw text into structured variables, these operations create a foundation for analyzing differences in tone, topic focus, and communication style between Barack and Michelle. 
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+# Extract features related to mentions, hashtags, emotion, and themes
 tweets <- tweets |>
   mutate(
-    has_mention = str_detect(text, "@\\w+"),
-    hashtag = str_extract(text, "#\\w+"),
-    num_exclaims = str_count(text, "!"),
-    has_hope_theme = str_detect(text, regex("\\b(hope|change|love|America)\\b", ignore_case = TRUE))
+    has_mention = str_detect(text, "@\\w+"),  # Detect if the tweet mentions another user
+    hashtag = str_extract(text, "#\\w+"),      # Extract the first hashtag from the tweet
+    num_exclaims = str_count(text, "!"),       # Count the number of exclamation marks
+    has_hope_theme = str_detect(text, regex("\\b(hope|change|love|America)\\b", ignore_case = TRUE))  # Flag tweets with key Obama-era themes
   )
 ```
 
@@ -67,19 +78,28 @@ With these structured features extracted from the tweets, I then moved into deep
 After extracting key structural features from the tweets, the next step was to examine their emotional content. To do this, I tokenized each tweet into individual words using unnest_tokens(), removed common stopwords, and joined the words with two different sentiment lexicons: Bing and AFINN. The Bing lexicon classifies words as positive or negative, allowing me to compare the frequency of positive versus negative language between Barack and Michelle. The AFINN lexicon assigns a numeric sentiment score to each word, enabling a calculation of the average sentiment for each person’s tweets. Together, these measures reveal important differences in emotional tone and public messaging between the two figures.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 library(tidytext)
+
+# Load sentiment lexicons
 bing_sentiments <- get_sentiments("bing")
 afinn_sentiments <- get_sentiments("afinn")
 
+# Tokenize tweets into words and remove stopwords
 tweet_words <- tweets |>
   unnest_tokens(word, text) |>
   anti_join(stop_words)
 
+# Join with Bing sentiment lexicon and count positive/negative words for each person
 bing_sentiment <- tweet_words |> 
   inner_join(bing_sentiments) |>
   count(person, sentiment) |> 
   pivot_wider(names_from = sentiment, values_from = n)
 
+# Join with AFINN lexicon and calculate mean sentiment score for each person
 afinn_scores <- tweet_words |>
   inner_join(afinn_sentiments) |>
   group_by(person) |>
@@ -91,6 +111,11 @@ afinn_scores <- tweet_words |>
 While sentiment analysis highlights the overall emotional tone of the tweets, it is also important to understand the specific vocabulary each person used to shape their public messaging. To do this, I used Term Frequency–Inverse Document Frequency (TF-IDF) analysis, which identifies words that are particularly important to one person's tweets relative to the other’s. First, I counted how often each word appears for each speaker using count(person, word). Then, bind_tf_idf() calculated the importance of each word based on its frequency in one set of tweets and rarity across both. Finally, arrange(desc(tf_idf)) ranked the words by their uniqueness. This approach brings out the distinctive themes that defined Barack’s and Michelle’s communication styles, for example, words like "lady" ranking highly for Michelle and "agreement" for Barack.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+# Calculate TF-IDF scores to find words uniquely important to each person
 tf_idf <- tweet_words |>
   count(person, word) |>
   bind_tf_idf(word, person, n) |>
@@ -110,6 +135,10 @@ By focusing on uniquely weighted vocabulary, this analysis offers a deeper look 
 While TF-IDF analysis highlights distinctive words based on uniqueness, word clouds offer a more intuitive, visual way to explore common language patterns. Larger words in a word cloud represent higher frequencies, making it easy to spot dominant themes at a glance. In this project, creating separate word clouds for Barack and Michelle Obama helps quickly illustrate the major topics and initiatives each emphasized on Twitter. Together with the numeric summaries, the word clouds offer a complementary perspective, reinforcing the communication priorities already suggested by the TF-IDF results.  
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 library(wordcloud)
 
 # Prepare the cleaned word counts
@@ -160,17 +189,29 @@ To further explore the differences in tone, vocabulary, and communication focus 
 Building on the earlier text analysis, I next examined hashtag usage to further uncover major themes in Barack and Michelle Obama's tweets. Hashtags serve as important markers of key initiatives, movements, and topics each speaker emphasized. This visualization plots the most common hashtags used by each person, using reorder_within() and facet_wrap() to cleanly separate and compare their top hashtag topics. By looking at the hashtags, we gain a snapshot of the primary causes and campaigns each figure prioritized. 
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+# Count top hashtags for each person
 tweets |>
   count(person, hashtag, sort = TRUE) |>
   filter(!is.na(hashtag)) |>
   group_by(person) |>
   slice_max(n, n = 10) |>
-  ggplot(aes(x = reorder_within(hashtag, n, person), y = n, fill = person)) +
+
+# Create separate bar plots for Barack and Michelle's top hashtags
+  ggplot(aes(x = reorder_within(hashtag, n, person), 
+             y = n, fill = person)) +
   geom_col(show.legend = FALSE) +
   facet_wrap(~person, scales = "free") +
   scale_x_reordered() +
   coord_flip() +
-  labs(title = "Top Hashtags by Person", x = "Hashtag", y = "Count") +
+  labs(
+    title = "Top Hashtags by Person",
+    x = "Hashtag",
+    y = "Count"
+  ) +
   theme_bw()
 ```
 
@@ -181,6 +222,10 @@ This plot shows that Barack Obama’s most frequent hashtags, like #AskPOTUS and
 While hashtag usage reveals the major topics emphasized by each figure, examining sentiment provides insight into the emotional tone that framed their communication. To explore this, I compared the counts of positive and negative words in Barack and Michelle Obama's tweets using the Bing sentiment lexicon. This bar chart visualizes how the emotional polarity of their tweets varies, adding depth to the earlier text-based findings about their public messaging styles. 
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # Pivot to long format
 bing_long <- bing_sentiment |>
   pivot_longer(cols = c(positive, negative),
@@ -207,6 +252,10 @@ This plot shows that both Barack and Michelle Obama tweeted more positively than
 After comparing the overall counts of positive and negative words using the Bing lexicon, I next turned to the AFINN lexicon to capture a more nuanced, numeric measure of sentiment. The AFINN scores assign sentiment values to individual words, allowing for a direct comparison of the average emotional tone in Barack and Michelle Obama’s tweets. This plot adds a quantitative perspective to the earlier findings and reinforces broader differences in mood and messaging style.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # Plot
 ggplot(afinn_scores, aes(x = person, y = mean_sentiment, fill = person)) +
   geom_col(width = 0.6) +
@@ -225,6 +274,10 @@ The results show that Michelle Obama's tweets have a noticeably higher mean sent
 While sentiment analysis reveals differences in emotional tone, examining distinctive vocabulary offers deeper insight into the specific issues each figure prioritized. To highlight words uniquely associated with Barack and Michelle Obama, I used TF-IDF analysis. This method emphasizes words that are common in one person's tweets but rare across both datasets. Plotting the top 10 highest TF-IDF words for each person reveals the distinct themes and initiatives that shaped their messaging. 
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 # Get the top 10 words for each person based on tf-idf score
 top_tf_idf <- tf_idf |>
   group_by(person) |>
@@ -249,9 +302,7 @@ The TF-IDF plot shows that Barack Obama’s most distinctive words include "askp
 
 This analysis highlights distinct differences in how Barack and Michelle Obama used Twitter to engage with the public. Barack’s tweets often focused on civic engagement, policy issues, and national identity, reflecting his role as a political leader addressing broad governance challenges. Michelle’s messaging, in contrast, centered on education, youth empowerment, and community initiatives, aligning with her efforts to inspire and support everyday citizens. Sentiment analysis revealed Michelle’s consistently more positive tone, while vocabulary and hashtag patterns reinforced their distinct areas of focus. Together, these insights show how each figure strategically adapted their communication style to promote their signature causes and connect authentically with their audiences. 
 
-One really cool insight I gained: 
-
-Michelle Obama's tweets are not only more positive on average (sentiment analysis) but also center much more heavily around social causes and youth initiatives (TF-IDF and hashtag analysis), whereas Barack’s tweets show a blend of national policy engagement and broader civic identity messaging.
+One really cool insight I gained: Michelle Obama's tweets are not only more positive on average (sentiment analysis) but also center much more heavily around social causes and youth initiatives (TF-IDF and hashtag analysis), whereas Barack’s tweets show a blend of national policy engagement and broader civic identity messaging.
 
 This was super interesting because:
 
