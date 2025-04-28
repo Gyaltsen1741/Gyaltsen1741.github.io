@@ -9,7 +9,7 @@ website:
   open-graph: true
   twitter-card: true
   navbar:
-  left:
+    left:
     - text: "Home"
       href: index.qmd
     - text: "Courses"
@@ -25,7 +25,6 @@ website:
         - text: "Text Analysis"
           href: Mini_Project_4_Text_Analysis.qmd
 
-
 format:
   html:
     theme: cosmo
@@ -40,5 +39,8 @@ format:
       - text: |
           <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
-
+quarto render
+git add .
+git commit -m "Update site with Mini-Project 4 page"
+git push 
 
