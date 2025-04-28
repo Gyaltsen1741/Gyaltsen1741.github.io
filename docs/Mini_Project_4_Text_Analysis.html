@@ -167,12 +167,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#text-analysis" id="toc-text-analysis" class="nav-link active" data-scroll-target="#text-analysis">Text Analysis</a></li>
+  <li><a href="#text-analysis" id="toc-text-analysis" class="nav-link active" data-scroll-target="#text-analysis">Text Analysis</a>
+  <ul class="collapse">
+  <li><a href="#dataset-and-preprocessing" id="toc-dataset-and-preprocessing" class="nav-link" data-scroll-target="#dataset-and-preprocessing">Dataset and Preprocessing</a></li>
+  <li><a href="#string-functions-and-regular-expressions" id="toc-string-functions-and-regular-expressions" class="nav-link" data-scroll-target="#string-functions-and-regular-expressions">String Functions and Regular Expressions</a></li>
+  <li><a href="#text-analysis-applications" id="toc-text-analysis-applications" class="nav-link" data-scroll-target="#text-analysis-applications">Text Analysis Applications</a>
+  <ul class="collapse">
+  <li><a href="#sentiment-analysis-bing-afinn" id="toc-sentiment-analysis-bing-afinn" class="nav-link" data-scroll-target="#sentiment-analysis-bing-afinn">1. Sentiment Analysis (bing + afinn)</a></li>
+  <li><a href="#tf-idf-for-unique-vocabulary" id="toc-tf-idf-for-unique-vocabulary" class="nav-link" data-scroll-target="#tf-idf-for-unique-vocabulary">2. TF-IDF for Unique Vocabulary</a></li>
+  <li><a href="#word-cloud" id="toc-word-cloud" class="nav-link" data-scroll-target="#word-cloud">3. Word Cloud</a></li>
+  </ul></li>
+  <li><a href="#plots-tables" id="toc-plots-tables" class="nav-link" data-scroll-target="#plots-tables">Plots &amp; Tables</a>
+  <ul class="collapse">
+  <li><a href="#plot-1-hashtag-usage-by-person" id="toc-plot-1-hashtag-usage-by-person" class="nav-link" data-scroll-target="#plot-1-hashtag-usage-by-person">Plot 1: Hashtag usage by person</a></li>
+  <li><a href="#plot-2-sentiment-comparison-bing" id="toc-plot-2-sentiment-comparison-bing" class="nav-link" data-scroll-target="#plot-2-sentiment-comparison-bing">Plot 2: Sentiment Comparison (bing)</a></li>
+  <li><a href="#plot-3-afinn-average-sentiment" id="toc-plot-3-afinn-average-sentiment" class="nav-link" data-scroll-target="#plot-3-afinn-average-sentiment">Plot 3: AFINN Average Sentiment</a></li>
+  <li><a href="#plot-4-top-10-unique-words-for-each-person" id="toc-plot-4-top-10-unique-words-for-each-person" class="nav-link" data-scroll-target="#plot-4-top-10-unique-words-for-each-person">PLot 4: Top 10 unique words for each person</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content column-page-left" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 
 
 
@@ -181,6 +199,365 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Text Analysis</h1>
 <section id="author-tenzin-gyaltsen" class="level4">
 <h4 class="anchored" data-anchor-id="author-tenzin-gyaltsen">Author: Tenzin Gyaltsen</h4>
+<p>In this project, I analyze a dataset of tweets from President Barack Obama and First Lady Michelle Obama to explore differences in linguistic style, emotional tone, and public messaging. By comparing their language on social media, we gain insight into how each leader used Twitter to shape their public image and connect with different audiences.</p>
+</section>
+<section id="dataset-and-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-and-preprocessing">Dataset and Preprocessing</h2>
+<p>To begin the analysis, I combined the tweets from Barack and Michelle Obama into a single dataset. I added a person column to distinguish between authors and formatted the timestamps using ymd_hms() to ensure consistency across records. Cleaning and unifying the dataset was a crucial first step, enabling direct comparisons of tone, topics, and communication strategies between the two figures over time.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>barack <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://joeroith.github.io/264_spring_2025/Data/tweets_potus.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 321 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (5): timestamp, source, text, retweeted_status_timestamp, expanded_urls
+dbl (5): tweet_id, in_reply_to_status_id, in_reply_to_user_id, retweeted_sta...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>michelle <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://joeroith.github.io/264_spring_2025/Data/tweets_flotus.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 4018 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (5): timestamp, source, text, retweeted_status_timestamp, expanded_urls
+dbl (5): tweet_id, in_reply_to_status_id, in_reply_to_user_id, retweeted_sta...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tweets <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  barack <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">person =</span> <span class="st">"Barack"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  michelle <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">person =</span> <span class="st">"Michelle"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp =</span> <span class="fu">ymd_hms</span>(timestamp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="string-functions-and-regular-expressions" class="level2">
+<h2 class="anchored" data-anchor-id="string-functions-and-regular-expressions">String Functions and Regular Expressions</h2>
+<p>With the dataset prepared, the next step was to extract meaningful features from the tweet text. I used str_detect() to identify the presence of mentions and keywords (such as “hope”), str_extract() to pull out the first hashtag from each tweet, and str_count() to quantify emotional punctuation like exclamation marks. Regular expressions like @\w+, #\w+, and \b(hope|change|love|America)\b were applied to locate specific patterns that signify engagement, branding, and emotional appeals. By transforming the raw text into structured variables, these operations create a foundation for analyzing differences in tone, topic focus, and communication style between Barack and Michelle.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tweets <span class="ot">&lt;-</span> tweets <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">has_mention =</span> <span class="fu">str_detect</span>(text, <span class="st">"@</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">hashtag =</span> <span class="fu">str_extract</span>(text, <span class="st">"#</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_exclaims =</span> <span class="fu">str_count</span>(text, <span class="st">"!"</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">has_hope_theme =</span> <span class="fu">str_detect</span>(text, <span class="fu">regex</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b(hope|change|love|America)</span><span class="sc">\\</span><span class="st">b"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li><p>has_mention: Indicates whether the tweet directly mentions another account, highlighting engagement strategies.</p></li>
+<li><p>hashtag: Captures the first hashtag used, providing insight into trending topics and campaign branding.</p></li>
+<li><p>num_exclaims: Measures the level of expressiveness or emphasis in each tweet.</p></li>
+<li><p>has_hope_theme: Flags tweets related to signature Obama-era themes like “hope” and “change,” useful for thematic analysis.</p></li>
+</ul>
+</section>
+<section id="text-analysis-applications" class="level2">
+<h2 class="anchored" data-anchor-id="text-analysis-applications">Text Analysis Applications</h2>
+<p>With these structured features extracted from the tweets, I then moved into deeper text analysis. By applying sentiment analysis and vocabulary modeling techniques, I aimed to uncover broader emotional trends and distinctive themes that defined Barack and Michelle Obama’s communication styles.</p>
+<section id="sentiment-analysis-bing-afinn" class="level3">
+<h3 class="anchored" data-anchor-id="sentiment-analysis-bing-afinn">1. Sentiment Analysis (bing + afinn)</h3>
+<p>After extracting key structural features from the tweets, the next step was to examine their emotional content. To do this, I tokenized each tweet into individual words using unnest_tokens(), removed common stopwords, and joined the words with two different sentiment lexicons: Bing and AFINN. The Bing lexicon classifies words as positive or negative, allowing me to compare the frequency of positive versus negative language between Barack and Michelle. The AFINN lexicon assigns a numeric sentiment score to each word, enabling a calculation of the average sentiment for each person’s tweets. Together, these measures reveal important differences in emotional tone and public messaging between the two figures.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidytext' was built under R version 4.4.3</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bing_sentiments <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>afinn_sentiments <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tweet_words <span class="ot">&lt;-</span> tweets <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">|&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(word)`</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>bing_sentiment <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(bing_sentiments) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, sentiment) <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sentiment, <span class="at">values_from =</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(word)`</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>afinn_scores <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(afinn_sentiments) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(person) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_sentiment =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(word)`</code></pre>
+</div>
+</div>
+</section>
+<section id="tf-idf-for-unique-vocabulary" class="level3">
+<h3 class="anchored" data-anchor-id="tf-idf-for-unique-vocabulary">2. TF-IDF for Unique Vocabulary</h3>
+<p>While sentiment analysis highlights the overall emotional tone of the tweets, it is also important to understand the specific vocabulary each person used to shape their public messaging. To do this, I used Term Frequency–Inverse Document Frequency (TF-IDF) analysis, which identifies words that are particularly important to one person’s tweets relative to the other’s. First, I counted how often each word appears for each speaker using count(person, word). Then, bind_tf_idf() calculated the importance of each word based on its frequency in one set of tweets and rarity across both. Finally, arrange(desc(tf_idf)) ranked the words by their uniqueness. This approach brings out the distinctive themes that defined Barack’s and Michelle’s communication styles, for example, words like “lady” ranking highly for Michelle and “agreement” for Barack.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tf_idf <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, word) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_tf_idf</span>(word, person, n) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tf_idf))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li><p>tf (Term Frequency): The proportion of tweets by that person that include the word. For instance, “lady” appears in about 2.5% of Michelle’s tweets.</p></li>
+<li><p>idf (Inverse Document Frequency): Reflects how unique the word is across both speakers. Words appearing in both people’s tweets have lower idf scores, while unique words have higher scores.</p></li>
+<li><p>tf_idf: The final product of tf and idf, highlighting words that are both frequent and distinctive for one person.</p></li>
+</ul>
+<p>By focusing on uniquely weighted vocabulary, this analysis offers a deeper look at the messaging priorities that each speaker emphasized.</p>
+</section>
+<section id="word-cloud" class="level3">
+<h3 class="anchored" data-anchor-id="word-cloud">3. Word Cloud</h3>
+<p>While TF-IDF analysis highlights distinctive words based on uniqueness, word clouds offer a more intuitive, visual way to explore common language patterns. Larger words in a word cloud represent higher frequencies, making it easy to spot dominant themes at a glance. In this project, creating separate word clouds for Barack and Michelle Obama helps quickly illustrate the major topics and initiatives each emphasized on Twitter. Together with the numeric summaries, the word clouds offer a complementary perspective, reinforcing the communication priorities already suggested by the TF-IDF results.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'wordcloud' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: RColorBrewer</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the cleaned word counts</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>cleaned_words <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">str_detect</span>(word, </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"^(t</span><span class="sc">\\</span><span class="st">.co|https?|amp|rt)$"</span>), <span class="co"># Remove t.co, https, amp, rt</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word,               <span class="co"># Remove English stopwords</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(word, <span class="st">"^[a-zA-Z]+$"</span>)           <span class="co"># Keep only alphabetic words</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Wordcloud for Barack Obama</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>word_counts_barack <span class="ot">&lt;-</span> cleaned_words <span class="sc">|&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(person <span class="sc">==</span> <span class="st">"Barack"</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">words =</span> word_counts_barack<span class="sc">$</span>word,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> word_counts_barack<span class="sc">$</span>n,</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">max.words =</span> <span class="dv">80</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">colors =</span> <span class="st">"blue"</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Mini_Project_4_Text_Analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wordcloud for Michelle Obama</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>word_counts_michelle <span class="ot">&lt;-</span> cleaned_words <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(person <span class="sc">==</span> <span class="st">"Michelle"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">words =</span> word_counts_michelle<span class="sc">$</span>word,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> word_counts_michelle<span class="sc">$</span>n,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">max.words =</span> <span class="dv">80</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">colors =</span> <span class="st">"purple"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Mini_Project_4_Text_Analysis_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The word clouds visually highlight key differences in the focus of Barack and Michelle Obama’s tweets. Barack’s most frequent words center around national identity, policy, and public engagement, with terms like “American,” “people,” “health,” and “climate.” In contrast, Michelle’s language emphasizes education, youth programs, and community initiatives, with frequent words like “lady,” “flotus,” “letgirlslearn,” and “education.” These patterns reinforce the broader public roles and signature causes championed by each figure.</p>
+</section>
+</section>
+<section id="plots-tables" class="level2">
+<h2 class="anchored" data-anchor-id="plots-tables">Plots &amp; Tables</h2>
+<p>To further explore the differences in tone, vocabulary, and communication focus between Barack and Michelle Obama, I created a series of plots. These visualizations help highlight key patterns uncovered through the earlier text analysis and offer a clearer comparison of their messaging styles over time.</p>
+<section id="plot-1-hashtag-usage-by-person" class="level3">
+<h3 class="anchored" data-anchor-id="plot-1-hashtag-usage-by-person">Plot 1: Hashtag usage by person</h3>
+<p>Building on the earlier text analysis, I next examined hashtag usage to further uncover major themes in Barack and Michelle Obama’s tweets. Hashtags serve as important markers of key initiatives, movements, and topics each speaker emphasized. This visualization plots the most common hashtags used by each person, using reorder_within() and facet_wrap() to cleanly separate and compare their top hashtag topics. By looking at the hashtags, we gain a snapshot of the primary causes and campaigns each figure prioritized.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tweets <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, hashtag, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(hashtag)) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(person) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder_within</span>(hashtag, n, person), <span class="at">y =</span> n, <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>person, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reordered</span>() <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top Hashtags by Person"</span>, <span class="at">x =</span> <span class="st">"Hashtag"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Mini_Project_4_Text_Analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot shows that Barack Obama’s most frequent hashtags, like #AskPOTUS and #ActOnClimate, highlight political engagement and climate initiatives. In contrast, Michelle Obama’s top hashtags, such as #LetGirlsLearn and #ReachHigher, emphasize education, youth development, and health. These patterns reinforce the broader focus seen across their tweets, with Barack centering on national and global policy, and Michelle championing social initiatives and community empowerment.</p>
+</section>
+<section id="plot-2-sentiment-comparison-bing" class="level3">
+<h3 class="anchored" data-anchor-id="plot-2-sentiment-comparison-bing">Plot 2: Sentiment Comparison (bing)</h3>
+<p>While hashtag usage reveals the major topics emphasized by each figure, examining sentiment provides insight into the emotional tone that framed their communication. To explore this, I compared the counts of positive and negative words in Barack and Michelle Obama’s tweets using the Bing sentiment lexicon. This bar chart visualizes how the emotional polarity of their tweets varies, adding depth to the earlier text-based findings about their public messaging styles.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot to long format</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>bing_long <span class="ot">&lt;-</span> bing_sentiment <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(positive, negative),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"sentiment"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"count"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bing_long, <span class="fu">aes</span>(<span class="at">x =</span> sentiment, <span class="at">y =</span> count, <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Sentiment Comparison Using Bing Lexicon"</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sentiment Type"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tweet Count"</span>,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Person"</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Mini_Project_4_Text_Analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This plot shows that both Barack and Michelle Obama tweeted more positively than negatively overall. However, Michelle had a much higher number of both positive and negative tweets, reflecting her greater overall tweet volume. Her tweets also display a stronger emphasis on positive language compared to Barack’s, reinforcing the optimistic tone identified earlier in the word cloud and hashtag analyses.</p>
+</section>
+<section id="plot-3-afinn-average-sentiment" class="level3">
+<h3 class="anchored" data-anchor-id="plot-3-afinn-average-sentiment">Plot 3: AFINN Average Sentiment</h3>
+<p>After comparing the overall counts of positive and negative words using the Bing lexicon, I next turned to the AFINN lexicon to capture a more nuanced, numeric measure of sentiment. The AFINN scores assign sentiment values to individual words, allowing for a direct comparison of the average emotional tone in Barack and Michelle Obama’s tweets. This plot adds a quantitative perspective to the earlier findings and reinforces broader differences in mood and messaging style.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(afinn_scores, <span class="fu">aes</span>(<span class="at">x =</span> person, <span class="at">y =</span> mean_sentiment, <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Average Sentiment Score Using AFINN"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Person"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Mean Sentiment Score"</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Mini_Project_4_Text_Analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The results show that Michelle Obama’s tweets have a noticeably higher mean sentiment score, suggesting a more consistently positive tone. In contrast, Barack Obama’s tweets appear slightly more neutral or reserved. These findings align with the earlier sentiment counts and continue to illustrate differences in how each figure crafted their public messaging on Twitter.</p>
+</section>
+<section id="plot-4-top-10-unique-words-for-each-person" class="level3">
+<h3 class="anchored" data-anchor-id="plot-4-top-10-unique-words-for-each-person">PLot 4: Top 10 unique words for each person</h3>
+<p>While sentiment analysis reveals differences in emotional tone, examining distinctive vocabulary offers deeper insight into the specific issues each figure prioritized. To highlight words uniquely associated with Barack and Michelle Obama, I used TF-IDF analysis. This method emphasizes words that are common in one person’s tweets but rare across both datasets. Plotting the top 10 highest TF-IDF words for each person reveals the distinct themes and initiatives that shaped their messaging.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Hide Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the top 10 words for each person based on tf-idf score</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>top_tf_idf <span class="ot">&lt;-</span> tf_idf <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(person) <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(tf_idf, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_tf_idf, <span class="fu">aes</span>(<span class="at">x =</span> tf_idf, <span class="at">y =</span> <span class="fu">fct_reorder</span>(word, tf_idf), <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>person, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 10 Unique Words by TF-IDF Score"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"TF-IDF Score"</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Word"</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Mini_Project_4_Text_Analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The TF-IDF plot shows that Barack Obama’s most distinctive words include “askpotus,” “agreement,” “guns,” and “actonclimate,” highlighting a strong focus on political engagement, policy discussions, and climate initiatives. In contrast, Michelle Obama’s top words such as “lady,” “letgirlslearn,” “reachhigher,” and “letsmove” reflect her emphasis on education, youth empowerment, and health campaigns. These differences align closely with earlier findings from the sentiment and hashtag analyses, reinforcing how each leader strategically used language to promote their public roles and signature causes.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This analysis highlights distinct differences in how Barack and Michelle Obama used Twitter to engage with the public. Barack’s tweets often focused on civic engagement, policy issues, and national identity, reflecting his role as a political leader addressing broad governance challenges. Michelle’s messaging, in contrast, centered on education, youth empowerment, and community initiatives, aligning with her efforts to inspire and support everyday citizens. Sentiment analysis revealed Michelle’s consistently more positive tone, while vocabulary and hashtag patterns reinforced their distinct areas of focus. Together, these insights show how each figure strategically adapted their communication style to promote their signature causes and connect authentically with their audiences.</p>
+<p>One really cool insight I gained:</p>
+<p>Michelle Obama’s tweets are not only more positive on average (sentiment analysis) but also center much more heavily around social causes and youth initiatives (TF-IDF and hashtag analysis), whereas Barack’s tweets show a blend of national policy engagement and broader civic identity messaging.</p>
+<p>This was super interesting because:</p>
+<ul>
+<li>Michelle’s positivity wasn’t just random — it matched her focus on education, empowerment, and optimism.</li>
+<li>Barack’s more neutral tone makes sense because presidential messaging has to balance many audiences and avoid emotional extremes.</li>
+<li>Hashtags reinforce this too: Barack is focused on national conversations (#ActOnClimate, #POTUS), while Michelle pushes specific programs (#LetGirlsLearn, #ReachHigher).</li>
+</ul>
 </section>
 </section>
 
@@ -660,25 +1037,269 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: full</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    css: styles.css</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>&lt;div style="text-align: left;"&gt;</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu"># Text Analysis</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Author: Tenzin Gyaltsen</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt; </span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: full</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">    css: styles.css</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>&lt;div style="text-align: left;"&gt;</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="fu"># Text Analysis</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Author: Tenzin Gyaltsen</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>In this project, I analyze a dataset of tweets from President Barack Obama and First Lady Michelle Obama to explore differences in linguistic style, emotional tone, and public messaging. By comparing their language on social media, we gain insight into how each leader used Twitter to shape their public image and connect with different audiences. </span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dataset and Preprocessing</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>To begin the analysis, I combined the tweets from Barack and Michelle Obama into a single dataset. I added a person column to distinguish between authors and formatted the timestamps using ymd_hms() to ensure consistency across records. Cleaning and unifying the dataset was a crucial first step, enabling direct comparisons of tone, topics, and communication strategies between the two figures over time. </span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>barack <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://joeroith.github.io/264_spring_2025/Data/tweets_potus.csv"</span>)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>michelle <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://joeroith.github.io/264_spring_2025/Data/tweets_flotus.csv"</span>)</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>tweets <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  barack <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">person =</span> <span class="st">"Barack"</span>),</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>  michelle <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">person =</span> <span class="st">"Michelle"</span>)</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp =</span> <span class="fu">ymd_hms</span>(timestamp))</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## String Functions and Regular Expressions</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>With the dataset prepared, the next step was to extract meaningful features from the tweet text. I used str_detect() to identify the presence of mentions and keywords (such as “hope”), str_extract() to pull out the first hashtag from each tweet, and str_count() to quantify emotional punctuation like exclamation marks. Regular expressions like @<span class="sc">\\</span>w+, #<span class="sc">\\</span>w+, and <span class="sc">\\</span>b(hope|change|love|America)<span class="sc">\\</span>b were applied to locate specific patterns that signify engagement, branding, and emotional appeals. By transforming the raw text into structured variables, these operations create a foundation for analyzing differences in tone, topic focus, and communication style between Barack and Michelle. </span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>tweets <span class="ot">&lt;-</span> tweets <span class="sc">|&gt;</span></span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">has_mention =</span> <span class="fu">str_detect</span>(text, <span class="st">"@</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">hashtag =</span> <span class="fu">str_extract</span>(text, <span class="st">"#</span><span class="sc">\\</span><span class="st">w+"</span>),</span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_exclaims =</span> <span class="fu">str_count</span>(text, <span class="st">"!"</span>),</span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">has_hope_theme =</span> <span class="fu">str_detect</span>(text, <span class="fu">regex</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b(hope|change|love|America)</span><span class="sc">\\</span><span class="st">b"</span>, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>has_mention: Indicates whether the tweet directly mentions another account, highlighting engagement strategies.</span>
+<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>hashtag: Captures the first hashtag used, providing insight into trending topics and campaign branding.</span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>num_exclaims: Measures the level of expressiveness or emphasis in each tweet.</span>
+<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>has_hope_theme: Flags tweets related to signature Obama-era themes like “hope” and “change,” useful for thematic analysis.</span>
+<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Text Analysis Applications</span></span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a>With these structured features extracted from the tweets, I then moved into deeper text analysis. By applying sentiment analysis and vocabulary modeling techniques, I aimed to uncover broader emotional trends and distinctive themes that defined Barack and Michelle Obama's communication styles. </span>
+<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Sentiment Analysis (bing + afinn)</span></span>
+<span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a>After extracting key structural features from the tweets, the next step was to examine their emotional content. To do this, I tokenized each tweet into individual words using unnest_tokens(), removed common stopwords, and joined the words with two different sentiment lexicons: Bing and AFINN. The Bing lexicon classifies words as positive or negative, allowing me to compare the frequency of positive versus negative language between Barack and Michelle. The AFINN lexicon assigns a numeric sentiment score to each word, enabling a calculation of the average sentiment for each person’s tweets. Together, these measures reveal important differences in emotional tone and public messaging between the two figures.</span>
+<span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-75"><a href="#cb27-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-76"><a href="#cb27-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb27-77"><a href="#cb27-77" aria-hidden="true" tabindex="-1"></a>bing_sentiments <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span>
+<span id="cb27-78"><a href="#cb27-78" aria-hidden="true" tabindex="-1"></a>afinn_sentiments <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span>
+<span id="cb27-79"><a href="#cb27-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-80"><a href="#cb27-80" aria-hidden="true" tabindex="-1"></a>tweet_words <span class="ot">&lt;-</span> tweets <span class="sc">|&gt;</span></span>
+<span id="cb27-81"><a href="#cb27-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">|&gt;</span></span>
+<span id="cb27-82"><a href="#cb27-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words)</span>
+<span id="cb27-83"><a href="#cb27-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-84"><a href="#cb27-84" aria-hidden="true" tabindex="-1"></a>bing_sentiment <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span> </span>
+<span id="cb27-85"><a href="#cb27-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(bing_sentiments) <span class="sc">|&gt;</span></span>
+<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, sentiment) <span class="sc">|&gt;</span> </span>
+<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sentiment, <span class="at">values_from =</span> n)</span>
+<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a>afinn_scores <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span></span>
+<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(afinn_sentiments) <span class="sc">|&gt;</span></span>
+<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(person) <span class="sc">|&gt;</span></span>
+<span id="cb27-92"><a href="#cb27-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_sentiment =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb27-93"><a href="#cb27-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-94"><a href="#cb27-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. TF-IDF for Unique Vocabulary</span></span>
+<span id="cb27-96"><a href="#cb27-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-97"><a href="#cb27-97" aria-hidden="true" tabindex="-1"></a>While sentiment analysis highlights the overall emotional tone of the tweets, it is also important to understand the specific vocabulary each person used to shape their public messaging. To do this, I used Term Frequency–Inverse Document Frequency (TF-IDF) analysis, which identifies words that are particularly important to one person's tweets relative to the other’s. First, I counted how often each word appears for each speaker using count(person, word). Then, bind_tf_idf() calculated the importance of each word based on its frequency in one set of tweets and rarity across both. Finally, arrange(desc(tf_idf)) ranked the words by their uniqueness. This approach brings out the distinctive themes that defined Barack’s and Michelle’s communication styles, for example, words like "lady" ranking highly for Michelle and "agreement" for Barack.</span>
+<span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a>tf_idf <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span></span>
+<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, word) <span class="sc">|&gt;</span></span>
+<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_tf_idf</span>(word, person, n) <span class="sc">|&gt;</span></span>
+<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tf_idf))</span>
+<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>tf (Term Frequency): The proportion of tweets by that person that include the word. For instance, "lady" appears in about 2.5% of Michelle's tweets.</span>
+<span id="cb27-109"><a href="#cb27-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>idf (Inverse Document Frequency): Reflects how unique the word is across both speakers. Words appearing in both people’s tweets have lower idf scores, while unique words have higher scores.</span>
+<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>tf_idf: The final product of tf and idf, highlighting words that are both frequent and distinctive for one person.</span>
+<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a>By focusing on uniquely weighted vocabulary, this analysis offers a deeper look at the messaging priorities that each speaker emphasized.</span>
+<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Word Cloud</span></span>
+<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a>While TF-IDF analysis highlights distinctive words based on uniqueness, word clouds offer a more intuitive, visual way to explore common language patterns. Larger words in a word cloud represent higher frequencies, making it easy to spot dominant themes at a glance. In this project, creating separate word clouds for Barack and Michelle Obama helps quickly illustrate the major topics and initiatives each emphasized on Twitter. Together with the numeric summaries, the word clouds offer a complementary perspective, reinforcing the communication priorities already suggested by the TF-IDF results.  </span>
+<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-122"><a href="#cb27-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-123"><a href="#cb27-123" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud)</span>
+<span id="cb27-124"><a href="#cb27-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-125"><a href="#cb27-125" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the cleaned word counts</span></span>
+<span id="cb27-126"><a href="#cb27-126" aria-hidden="true" tabindex="-1"></a>cleaned_words <span class="ot">&lt;-</span> tweet_words <span class="sc">|&gt;</span></span>
+<span id="cb27-127"><a href="#cb27-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb27-128"><a href="#cb27-128" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">str_detect</span>(word, </span>
+<span id="cb27-129"><a href="#cb27-129" aria-hidden="true" tabindex="-1"></a>                <span class="st">"^(t</span><span class="sc">\\</span><span class="st">.co|https?|amp|rt)$"</span>), <span class="co"># Remove t.co, https, amp, rt</span></span>
+<span id="cb27-130"><a href="#cb27-130" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word,               <span class="co"># Remove English stopwords</span></span>
+<span id="cb27-131"><a href="#cb27-131" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(word, <span class="st">"^[a-zA-Z]+$"</span>)           <span class="co"># Keep only alphabetic words</span></span>
+<span id="cb27-132"><a href="#cb27-132" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb27-133"><a href="#cb27-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-134"><a href="#cb27-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-135"><a href="#cb27-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Wordcloud for Barack Obama</span></span>
+<span id="cb27-136"><a href="#cb27-136" aria-hidden="true" tabindex="-1"></a>word_counts_barack <span class="ot">&lt;-</span> cleaned_words <span class="sc">|&gt;</span></span>
+<span id="cb27-137"><a href="#cb27-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(person <span class="sc">==</span> <span class="st">"Barack"</span>)</span>
+<span id="cb27-138"><a href="#cb27-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-139"><a href="#cb27-139" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb27-140"><a href="#cb27-140" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb27-141"><a href="#cb27-141" aria-hidden="true" tabindex="-1"></a>  <span class="at">words =</span> word_counts_barack<span class="sc">$</span>word,</span>
+<span id="cb27-142"><a href="#cb27-142" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> word_counts_barack<span class="sc">$</span>n,</span>
+<span id="cb27-143"><a href="#cb27-143" aria-hidden="true" tabindex="-1"></a>  <span class="at">max.words =</span> <span class="dv">80</span>,</span>
+<span id="cb27-144"><a href="#cb27-144" aria-hidden="true" tabindex="-1"></a>  <span class="at">colors =</span> <span class="st">"blue"</span>,</span>
+<span id="cb27-145"><a href="#cb27-145" aria-hidden="true" tabindex="-1"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span></span>
+<span id="cb27-146"><a href="#cb27-146" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-147"><a href="#cb27-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-148"><a href="#cb27-148" aria-hidden="true" tabindex="-1"></a><span class="co"># Wordcloud for Michelle Obama</span></span>
+<span id="cb27-149"><a href="#cb27-149" aria-hidden="true" tabindex="-1"></a>word_counts_michelle <span class="ot">&lt;-</span> cleaned_words <span class="sc">|&gt;</span></span>
+<span id="cb27-150"><a href="#cb27-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(person <span class="sc">==</span> <span class="st">"Michelle"</span>)</span>
+<span id="cb27-151"><a href="#cb27-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-152"><a href="#cb27-152" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb27-153"><a href="#cb27-153" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb27-154"><a href="#cb27-154" aria-hidden="true" tabindex="-1"></a>  <span class="at">words =</span> word_counts_michelle<span class="sc">$</span>word,</span>
+<span id="cb27-155"><a href="#cb27-155" aria-hidden="true" tabindex="-1"></a>  <span class="at">freq =</span> word_counts_michelle<span class="sc">$</span>n,</span>
+<span id="cb27-156"><a href="#cb27-156" aria-hidden="true" tabindex="-1"></a>  <span class="at">max.words =</span> <span class="dv">80</span>,</span>
+<span id="cb27-157"><a href="#cb27-157" aria-hidden="true" tabindex="-1"></a>  <span class="at">colors =</span> <span class="st">"purple"</span>,</span>
+<span id="cb27-158"><a href="#cb27-158" aria-hidden="true" tabindex="-1"></a>  <span class="at">random.order =</span> <span class="cn">FALSE</span></span>
+<span id="cb27-159"><a href="#cb27-159" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-160"><a href="#cb27-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-161"><a href="#cb27-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-162"><a href="#cb27-162" aria-hidden="true" tabindex="-1"></a>The word clouds visually highlight key differences in the focus of Barack and Michelle Obama’s tweets. Barack’s most frequent words center around national identity, policy, and public engagement, with terms like "American," "people," "health," and "climate." In contrast, Michelle’s language emphasizes education, youth programs, and community initiatives, with frequent words like "lady," "flotus," "letgirlslearn," and "education." These patterns reinforce the broader public roles and signature causes championed by each figure.  </span>
+<span id="cb27-163"><a href="#cb27-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-164"><a href="#cb27-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Plots &amp; Tables</span></span>
+<span id="cb27-165"><a href="#cb27-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-166"><a href="#cb27-166" aria-hidden="true" tabindex="-1"></a>To further explore the differences in tone, vocabulary, and communication focus between Barack and Michelle Obama, I created a series of plots. These visualizations help highlight key patterns uncovered through the earlier text analysis and offer a clearer comparison of their messaging styles over time. </span>
+<span id="cb27-167"><a href="#cb27-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-168"><a href="#cb27-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plot 1: Hashtag usage by person</span></span>
+<span id="cb27-169"><a href="#cb27-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-170"><a href="#cb27-170" aria-hidden="true" tabindex="-1"></a>Building on the earlier text analysis, I next examined hashtag usage to further uncover major themes in Barack and Michelle Obama's tweets. Hashtags serve as important markers of key initiatives, movements, and topics each speaker emphasized. This visualization plots the most common hashtags used by each person, using reorder_within() and facet_wrap() to cleanly separate and compare their top hashtag topics. By looking at the hashtags, we gain a snapshot of the primary causes and campaigns each figure prioritized. </span>
+<span id="cb27-171"><a href="#cb27-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-174"><a href="#cb27-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-175"><a href="#cb27-175" aria-hidden="true" tabindex="-1"></a>tweets <span class="sc">|&gt;</span></span>
+<span id="cb27-176"><a href="#cb27-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(person, hashtag, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-177"><a href="#cb27-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(hashtag)) <span class="sc">|&gt;</span></span>
+<span id="cb27-178"><a href="#cb27-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(person) <span class="sc">|&gt;</span></span>
+<span id="cb27-179"><a href="#cb27-179" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(n, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-180"><a href="#cb27-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder_within</span>(hashtag, n, person), <span class="at">y =</span> n, <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb27-181"><a href="#cb27-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-182"><a href="#cb27-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>person, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb27-183"><a href="#cb27-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reordered</span>() <span class="sc">+</span></span>
+<span id="cb27-184"><a href="#cb27-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb27-185"><a href="#cb27-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top Hashtags by Person"</span>, <span class="at">x =</span> <span class="st">"Hashtag"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb27-186"><a href="#cb27-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb27-187"><a href="#cb27-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-188"><a href="#cb27-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-189"><a href="#cb27-189" aria-hidden="true" tabindex="-1"></a>This plot shows that Barack Obama’s most frequent hashtags, like #AskPOTUS and #ActOnClimate, highlight political engagement and climate initiatives. In contrast, Michelle Obama's top hashtags, such as #LetGirlsLearn and #ReachHigher, emphasize education, youth development, and health. These patterns reinforce the broader focus seen across their tweets, with Barack centering on national and global policy, and Michelle championing social initiatives and community empowerment. </span>
+<span id="cb27-190"><a href="#cb27-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-191"><a href="#cb27-191" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plot 2: Sentiment Comparison (bing)</span></span>
+<span id="cb27-192"><a href="#cb27-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-193"><a href="#cb27-193" aria-hidden="true" tabindex="-1"></a>While hashtag usage reveals the major topics emphasized by each figure, examining sentiment provides insight into the emotional tone that framed their communication. To explore this, I compared the counts of positive and negative words in Barack and Michelle Obama's tweets using the Bing sentiment lexicon. This bar chart visualizes how the emotional polarity of their tweets varies, adding depth to the earlier text-based findings about their public messaging styles. </span>
+<span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-198"><a href="#cb27-198" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot to long format</span></span>
+<span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a>bing_long <span class="ot">&lt;-</span> bing_sentiment <span class="sc">|&gt;</span></span>
+<span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(positive, negative),</span>
+<span id="cb27-201"><a href="#cb27-201" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"sentiment"</span>,</span>
+<span id="cb27-202"><a href="#cb27-202" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"count"</span>)</span>
+<span id="cb27-203"><a href="#cb27-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-204"><a href="#cb27-204" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb27-205"><a href="#cb27-205" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bing_long, <span class="fu">aes</span>(<span class="at">x =</span> sentiment, <span class="at">y =</span> count, <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb27-206"><a href="#cb27-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb27-207"><a href="#cb27-207" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-208"><a href="#cb27-208" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Sentiment Comparison Using Bing Lexicon"</span>,</span>
+<span id="cb27-209"><a href="#cb27-209" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sentiment Type"</span>,</span>
+<span id="cb27-210"><a href="#cb27-210" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tweet Count"</span>,</span>
+<span id="cb27-211"><a href="#cb27-211" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Person"</span></span>
+<span id="cb27-212"><a href="#cb27-212" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-213"><a href="#cb27-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb27-214"><a href="#cb27-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-215"><a href="#cb27-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-216"><a href="#cb27-216" aria-hidden="true" tabindex="-1"></a>This plot shows that both Barack and Michelle Obama tweeted more positively than negatively overall. However, Michelle had a much higher number of both positive and negative tweets, reflecting her greater overall tweet volume. Her tweets also display a stronger emphasis on positive language compared to Barack’s, reinforcing the optimistic tone identified earlier in the word cloud and hashtag analyses.</span>
+<span id="cb27-217"><a href="#cb27-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-218"><a href="#cb27-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-219"><a href="#cb27-219" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plot 3: AFINN Average Sentiment</span></span>
+<span id="cb27-220"><a href="#cb27-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-221"><a href="#cb27-221" aria-hidden="true" tabindex="-1"></a>After comparing the overall counts of positive and negative words using the Bing lexicon, I next turned to the AFINN lexicon to capture a more nuanced, numeric measure of sentiment. The AFINN scores assign sentiment values to individual words, allowing for a direct comparison of the average emotional tone in Barack and Michelle Obama’s tweets. This plot adds a quantitative perspective to the earlier findings and reinforces broader differences in mood and messaging style.</span>
+<span id="cb27-222"><a href="#cb27-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-225"><a href="#cb27-225" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-226"><a href="#cb27-226" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb27-227"><a href="#cb27-227" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(afinn_scores, <span class="fu">aes</span>(<span class="at">x =</span> person, <span class="at">y =</span> mean_sentiment, <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb27-228"><a href="#cb27-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb27-229"><a href="#cb27-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-230"><a href="#cb27-230" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Average Sentiment Score Using AFINN"</span>,</span>
+<span id="cb27-231"><a href="#cb27-231" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Person"</span>,</span>
+<span id="cb27-232"><a href="#cb27-232" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Mean Sentiment Score"</span></span>
+<span id="cb27-233"><a href="#cb27-233" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-234"><a href="#cb27-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb27-235"><a href="#cb27-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-236"><a href="#cb27-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-237"><a href="#cb27-237" aria-hidden="true" tabindex="-1"></a>The results show that Michelle Obama's tweets have a noticeably higher mean sentiment score, suggesting a more consistently positive tone. In contrast, Barack Obama's tweets appear slightly more neutral or reserved. These findings align with the earlier sentiment counts and continue to illustrate differences in how each figure crafted their public messaging on Twitter. </span>
+<span id="cb27-238"><a href="#cb27-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-239"><a href="#cb27-239" aria-hidden="true" tabindex="-1"></a><span class="fu">### PLot 4: Top 10 unique words for each person</span></span>
+<span id="cb27-240"><a href="#cb27-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-241"><a href="#cb27-241" aria-hidden="true" tabindex="-1"></a>While sentiment analysis reveals differences in emotional tone, examining distinctive vocabulary offers deeper insight into the specific issues each figure prioritized. To highlight words uniquely associated with Barack and Michelle Obama, I used TF-IDF analysis. This method emphasizes words that are common in one person's tweets but rare across both datasets. Plotting the top 10 highest TF-IDF words for each person reveals the distinct themes and initiatives that shaped their messaging. </span>
+<span id="cb27-242"><a href="#cb27-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-245"><a href="#cb27-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-246"><a href="#cb27-246" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the top 10 words for each person based on tf-idf score</span></span>
+<span id="cb27-247"><a href="#cb27-247" aria-hidden="true" tabindex="-1"></a>top_tf_idf <span class="ot">&lt;-</span> tf_idf <span class="sc">|&gt;</span></span>
+<span id="cb27-248"><a href="#cb27-248" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(person) <span class="sc">|&gt;</span></span>
+<span id="cb27-249"><a href="#cb27-249" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(tf_idf, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-250"><a href="#cb27-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb27-251"><a href="#cb27-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-252"><a href="#cb27-252" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb27-253"><a href="#cb27-253" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_tf_idf, <span class="fu">aes</span>(<span class="at">x =</span> tf_idf, <span class="at">y =</span> <span class="fu">fct_reorder</span>(word, tf_idf), <span class="at">fill =</span> person)) <span class="sc">+</span></span>
+<span id="cb27-254"><a href="#cb27-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-255"><a href="#cb27-255" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>person, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 10 Unique Words by TF-IDF Score"</span>,</span>
+<span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"TF-IDF Score"</span>,</span>
+<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Word"</span></span>
+<span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-263"><a href="#cb27-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-264"><a href="#cb27-264" aria-hidden="true" tabindex="-1"></a>The TF-IDF plot shows that Barack Obama’s most distinctive words include "askpotus," "agreement," "guns," and "actonclimate," highlighting a strong focus on political engagement, policy discussions, and climate initiatives. In contrast, Michelle Obama’s top words such as "lady," "letgirlslearn," "reachhigher," and "letsmove" reflect her emphasis on education, youth empowerment, and health campaigns. These differences align closely with earlier findings from the sentiment and hashtag analyses, reinforcing how each leader strategically used language to promote their public roles and signature causes. </span>
+<span id="cb27-265"><a href="#cb27-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-266"><a href="#cb27-266" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conclusion </span></span>
+<span id="cb27-267"><a href="#cb27-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-268"><a href="#cb27-268" aria-hidden="true" tabindex="-1"></a>This analysis highlights distinct differences in how Barack and Michelle Obama used Twitter to engage with the public. Barack’s tweets often focused on civic engagement, policy issues, and national identity, reflecting his role as a political leader addressing broad governance challenges. Michelle’s messaging, in contrast, centered on education, youth empowerment, and community initiatives, aligning with her efforts to inspire and support everyday citizens. Sentiment analysis revealed Michelle’s consistently more positive tone, while vocabulary and hashtag patterns reinforced their distinct areas of focus. Together, these insights show how each figure strategically adapted their communication style to promote their signature causes and connect authentically with their audiences. </span>
+<span id="cb27-269"><a href="#cb27-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-270"><a href="#cb27-270" aria-hidden="true" tabindex="-1"></a>One really cool insight I gained: </span>
+<span id="cb27-271"><a href="#cb27-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-272"><a href="#cb27-272" aria-hidden="true" tabindex="-1"></a>Michelle Obama's tweets are not only more positive on average (sentiment analysis) but also center much more heavily around social causes and youth initiatives (TF-IDF and hashtag analysis), whereas Barack’s tweets show a blend of national policy engagement and broader civic identity messaging.</span>
+<span id="cb27-273"><a href="#cb27-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-274"><a href="#cb27-274" aria-hidden="true" tabindex="-1"></a>This was super interesting because:</span>
+<span id="cb27-275"><a href="#cb27-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-276"><a href="#cb27-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Michelle’s positivity wasn’t just random — it matched her focus on education, empowerment, and optimism.</span>
+<span id="cb27-277"><a href="#cb27-277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Barack’s more neutral tone makes sense because presidential messaging has to balance many audiences and avoid emotional extremes.</span>
+<span id="cb27-278"><a href="#cb27-278" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Hashtags reinforce this too: Barack is focused on national conversations (#ActOnClimate, #POTUS), while Michelle pushes specific programs (#LetGirlsLearn, #ReachHigher).</span>
+<span id="cb27-279"><a href="#cb27-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-280"><a href="#cb27-280" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt; </span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
