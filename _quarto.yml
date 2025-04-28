@@ -38,9 +38,4 @@ format:
     include-in-header:
       - text: |
           <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-
-quarto render
-git add .
-git commit -m "Update site with Mini-Project 4 page"
-git push 
-
+      
