@@ -9,19 +9,22 @@ website:
   open-graph: true
   twitter-card: true
   navbar:
-    left:
-      - text: "Home"
-        href: index.qmd
-      - text: "Courses"
-        href: courses.qmd
-      - text: "Mini Project 1: Static Maps"
-        href: Mini-Project_1_Static_Maps.qmd
-      - text: "Mini Project 1: Interactive Maps"
-        href: Mini-Project_1_Interactive_Maps.qmd
-      - text: "Mini Project 2"
-        href: Mini_Project2.qmd
-      - text: "Mini Project 4: Text Analysis"
-        href: Mini_Project_4_Text_Analysis.qmd
+  left:
+    - text: "Home"
+      href: index.qmd
+    - text: "Courses"
+      href: courses.qmd
+    - text: "Projects"
+      menu:
+        - text: "Static Maps"
+          href: Mini-Project_1_Static_Maps.qmd
+        - text: "Interactive Maps"
+          href: Mini-Project_1_Interactive_Maps.qmd
+        - text: "Mini Project 2"
+          href: Mini_Project2.qmd
+        - text: "Text Analysis"
+          href: Mini_Project_4_Text_Analysis.qmd
+
 
 format:
   html:
